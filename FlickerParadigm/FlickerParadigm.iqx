@@ -1,0 +1,1488 @@
+﻿<usermanual>
+						
+									FLICKER PARADIGM FOR CHANGEBLINDNESS
+SCRIPT INFO
+
+Script Author: Katja Borchert, Ph.D. (katjab@millisecond.com) for Millisecond Software, LLC
+Date: 02-11-2014
+last updated: 01-11-2016 by K.Borchert (katjab@millisecond.com) for Millisecond Software LLC
+
+Copyright © 01-11-2016 Millisecond Software
+
+
+BACKGROUND INFO
+
+											*Purpose*
+This script implements a Flicker Paradigm to investigate the role of attention in Change Blindness based on:
+
+Rensink, R.A., O'Regan, J.K. & Clark, J.J. (1997). TO SEE OR NOT TO SEE:
+The Need for Attention to Perceive Changes in Scenes. Psychological Science, 8, 368-373.
+
+
+NOTES: 
+* This script runs with 6 example stimuli (ONLY intended for demonstration purposes). The original study ran with
+48.
+* the variable "interest level of change" (central vs. marginal) is not included in this script as the example
+stimuli contain "marginal interest" changes only.
+* this script runs 2 cue conditions (cue vs. no cue) either in a mixed design (default) or in a blocked
+design. The script does not include an unreliable cue condition as tested by Rensink et al.
+
+
+Millisecond Software thanks Dr. Rensink for sharing his example stimuli for this script!
+
+
+											  *Task*
+Participants are presented "flickering" presentations of original and altered pictures for a maximum cycle of 1 min (default).
+The task is to find the one difference between the two pictures. 
+If participants find the difference they are instructed to press the Responsekey (original: Spacebar) and 
+are asked to describe the change in detail in a textbox.
+
+
+DATA FILE INFORMATION: 
+The default data stored in the data files are:
+
+(1) Raw data file: 'FlickerParadigm_raw*.iqdat' (a separate file for each participant)
+
+Note: by default, trial.savedata is the only trial that saves data to the raw data file
+
+build:							Inquisit build
+computer.platform:				the platform the script was run on
+date, time, subject:			date and time script was run with the current subjectnumber 
+blockcode, blocknum:			the name and number of the current block
+trialcode, trialnum: 			the name and number of the currently recorded trial
+									Note: not all trials that are run might record data
+/flicker_same:					the duration of the blank screen/flicker in between the 2 presentations of the original pictures (or altered pictures) (original: 80ms)
+									Note: if set to 0 the presentation of the pictures appears continuous
+/changetype:					"location" (1), "presence/absence" (2), "color" changes (3) in the pictures
+/cuecondition:					1 = a cue is given; 2 = no cue is given
+/cue:							the currently presented cue
+/counttrials:					counts the number of trials 
+/count_cycles: 					counts the number of cycles started until a response occurs
+/currentpic:					the itemnumber of the currently presented (original/altered) pic
+/stimulus:						the stimulus presented (StimA)
+
+/response:						the participant's response
+									Note: trial.savedata will have response = 0
+
+/responsepoint:					determines the stimulus in the response cycle (the cycle that participant made a positive response)
+								that was presented when participant made response: 
+								"StimA1", "flicker_AA", "StimA2", "flicker_AB", "StimB1",
+								"flicker_BB", "StimB2", "flicker_BA" or "N/A" (if no response was given)
+/alternations:					determines the number of alternations between original and altered pictures until response occurs
+									Note: each switch between originals and altered pictures as well as each switch between
+											altered pictures and original pictures is counted as an alternation.
+											=> for each completed cycle, participant go through 2 alternations;
+											if the response occurs AFTER the change from original to altered pic in the last
+											cycle, one more alternation is added to the count.
+											
+latency: 						the response latency (ms) in a given trial
+									Note: trial.savedata will have latency = 0
+/cycle_rt:						stores the combined trial latencies across the entire cycle until response occurs (in ms)
+/textboxresponse:				stores the openended response
+correct:						the correctness of the response (trial.savedata -> correct = 0)
+									Note: script does NOT evaluate the correctness of the openended.reportchange response automatically.
+									Each openended response needs to be evaluated separately.
+/textboxresponse_rt:			stores the time it took participant to work on the openended response until pressing the button (in ms)
+
+(2) Summary data file: 'FlickerParadigm_summary*.iqdat' (a separate file for each participant)
+
+script.startdate:				date script was run
+script.starttime:				time script was started
+script.subjectid:				subject id number
+script.groupid:					group id number
+script.elapsedtime:				time it took to run script (in ms)
+computer.platform:				the platform the script was run on
+/completed:						0 = script was not completed; 1 = script was completed (all conditions run)
+/runcuecondition:				by default, the cuecondition (cue vs. no cue) is run in a "mixed" design; to run the
+								cuecondition in a blocked design, set value.runcuecondition = "blocked"
+/countresponses:				counts how often participants pressed the Spacebar to report the change
+
+
+EXPERIMENTAL SET-UP
+3 (change types: location, color, presence/absence) x  2 (cue conditions: no cue, cue); tested within
+Change types are tested by default in a mixed design. To run them in a blocked design: change parameters.runcuecondition (editable parameter).
+If the conditions are run in a blocked design, the order of the cue conditions is determined randomly in this script.
+
+Cues in this script alert participants to the type of change: color, location or the addition/removal of an object
+
+(a) Blocks:
+1. Practice: by default, the script runs as many practice trials as specified under parameters.max_numberoftrials_practice (default: 1)
+and selects the stimuli randomly from item.practice_StimA.
+		NOTE: Rensink et al ran 6 (=3 changetypes x 2 interest levels; interest levels are not tested in this script by default)
+2. Flicker_MixedCue: by default, the script runs 6 trials
+3. Flicker_Cue/Flicker_NoCue: by default, the script runs 3 trials per block (stimuli are randomly assigned to either one of them)
+
+(b) Trial Sequences: 
+1. cue-field screen: 3000ms
+	-> the cue condition is selected at random
+2. blank screen: 1000ms
+
+3. Cycle: the selection of the individual pictures is random
+
+original (240ms) -> flicker (80ms) -> original (240ms)-> flicker (80ms) -> altered (240ms) -> flicker (80ms) -> altered (240ms) -> repeat of cycle if noresponse
+(maximum cycle duration: ~1 min)
+
+Note: all durations are editable parameter. They can be changed under EDITABLE CODE -> Editable Values
+
+4. Change Description: if a change was reported (by pressing Responsekey): an openended trial asks participants to describe the
+change in detail
+
+STIMULI
+The provided stimuli are example stimuli generously shared by Dr. Rensink under 
+http://www2.psych.ubc.ca/~rensink/flicker/download/index.html
+
+They are only intended for demonstration purposes. 
+Substitute your own stimuli under EDITABLE CODE -> Editable Stimuli and follow instructions
+
+INSTRUCTIONS
+The instructions used in this script are not original. They are provided in html-format by Millisecond Software.
+To change the instructions, simply change the html files (e.g. in 'Notepad')
+
+EDITABLE CODE:
+check below for (relatively) easily editable parameters, stimuli, instructions etc. 
+Keep in mind that you can use this script as a template and therefore always "mess" with the entire code to further customize your experiment.
+
+The parameters you can change are:
+
+/responsekey:							scancode of the response key
+											Note: scancodes under Tools -> Keyboard Scancodes (original: 57)
+/responsekey_label:						label of the response key (original: <SPACEBAR>)
+
+/cueboxheight:							height of the cuebox in percentage of canvas height (original: 10%)
+/cueboxwidth:							width of the cuebox in percentage of canvas width (original: 30%)
+/cuetextheight:							the height of the cue text in percentage of canvas height (original: 5%)
+
+/picheight:								the height of the pictures in percentage of canvas height (original: 70%)
+
+/cueduration:							the duration of the cue in ms (original: 3000ms)
+/startscreenduration:					the duration of the start screen in ms (original: 1000ms)
+/StimA_Duration:						the duration of the original picture in ms (original: 240ms)
+											Note: the original picture is presented twice. If parameters.flicker_same = 0; 
+											the presentation of the 2 original pictures appears continuous
+/StimB_Duration:						the duration of the altered picture in ms (original: 240ms)
+											Note: the altered picture is presented twice. If parameters.flicker_same = 0; 
+											the presentation of the 2 altered pictures appears continuous
+
+/flicker_same:							the duration of the blank screen/flicker in between the 2 presentations of the original pictures in ms (or altered pictures) (original: 80ms)
+											Note: if set to 0 the presentation of the pictures appears continuous
+/flicker_different:						the duration of the blank screen/the flicker in between original and altered pictures in ms (original: 80ms)
+
+/max_cycleduration:						the ~maximum duration of the cycling through original and altered pictures if no response occurs in ms (defaul: 60000ms)
+
+/max_numberoftrials:					the number of test stimuli (default: 6).
+											NOTES:
+											a) In the mixed design all stimuli are presented within one block. In the blocked design, half
+											the stimuli are presented in the cue, the other half in the nocue block (random sampling).
+											b) The original study (Rensink et al used 48 stimuli)-> change images under EDITABLE CODE -> Editable Stimuli
+
+/max_numberoftrials_practice:			the number of practice stimuli tested (default: 1)
+											
+/runcuecondition:						by default, the cuecondition (cue vs. no cue) is run in a "mixed" design; to run the
+										cuecondition in a blocked design, set value.runcuecondition = "blocked"
+
+</usermanual>
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE PARAMETERS: change editable parameters here
+**************************************************************************************************************
+**************************************************************************************************************
+
+<parameters>
+/responsekey = 57
+/responsekey_label = "SPACEBAR"
+
+/cueboxheight = 10%
+/cueboxwidth = 60%
+/cuetextheight = 5%
+
+/picheight = 70%
+
+/cueduration = 3000
+/startscreenduration = 1000
+/StimA_Duration = 240
+/StimB_Duration = 240
+/flicker_same = 80
+/flicker_different = 80
+
+/max_cycleduration = 60000
+
+/max_numberoftrials  = 6
+/max_numberoftrials_practice = 1
+
+/runcuecondition = "mixed"
+</parameters>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE STIMULI: change editable stimuli here
+**************************************************************************************************************
+**************************************************************************************************************
+
+*******************************
+Pictures
+*******************************
+NOTES: 
+* the example pictures are listed separately for location, presence/absence, and color changes
+* the number of pictures under each item need to be equal to values.max_numberoftrials/3
+assuming that each stimulus is run once in this paradigm
+
+* The example pictures contain ONLY marginal interest changes.
+
+*  the original study ran 48/3 = 16 stimuli under each of the 3 change categories
+
+*****************************
+Stimuli with Location Changes
+******************************
+
+<item stimsA_location>
+/1 = "SailboatA_L.png"
+/2 = "DinnerA_l.png"
+</item>
+
+<item stimsB_location>
+/1 = "SailboatB_L.png"
+/2 = "DinnerB_l.png"
+</item>
+
+*****************************
+Stimuli with Presence/Absence Changes
+******************************
+
+<item stimsA_presence>
+/1 = "AirplaneA_P.png"
+/2 = "HarborsideA_P.png"
+</item>
+
+<item stimsB_presence>
+/1 = "AirplaneB_P.png"
+/2 = "HarborsideB_P.png"
+</item>
+
+*****************************
+Stimuli with Color Changes
+******************************
+<item stimsA_color>
+/1 = "MoneyA_C.png"
+/2 = "MarketA_C.png"
+</item>
+
+<item stimsB_color>
+/1 = "MoneyB_C.png"
+/2 = "MarketB_C.png"
+</item>
+
+*****************************
+Practice Stimuli
+*****************************
+
+<item practice_stimA>
+/1 = "CornerA_C.png"
+</item>
+
+<item practice_stimB>
+/1 = "CornerB_C.png"
+</item>
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE INSTRUCTIONS: change instructions here
+**************************************************************************************************************
+**************************************************************************************************************
+Note: edit the instructions to report the observed changes here
+<item reportchanges>
+/1 = "Please describe what changed in the pictures in the textbox below. Be as specific as you can be."
+</item>
+
+
+<instruct>
+/ fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
+/ txcolor = black
+/ inputdevice = mouse
+</instruct>
+
+
+Most instruction pages are provided in html-format: to edit the instructions, open the provided htm documents
+in a simple text editor such as Notepad (for example) and edit instructions in the htm document directly.
+
+<htmlpage Intro1>
+/file = "FlickerParadigm_Intro1.htm"
+</htmlpage>
+
+<htmlpage Intro2>
+/file = "FlickerParadigm_Intro2.htm"
+</htmlpage>
+
+<htmlpage Intro3>
+/file = "FlickerParadigm_Intro3.htm"
+</htmlpage>
+
+<htmlpage Practice>
+/file = "FlickerParadigm_Practice.htm"
+</htmlpage>
+
+<htmlpage PracticeEnd>
+/file = "FlickerParadigm_PracticeEnd.htm"
+</htmlpage>
+
+<htmlpage MixedCue>
+/file = "FlickerParadigm_mixedcue.htm"
+</htmlpage>
+
+<htmlpage NoCue>
+/file = "FlickerParadigm_nocue.htm"
+</htmlpage>
+
+<htmlpage Cue>
+/file = "FlickerParadigm_cue.htm"
+</htmlpage>
+
+<page end>
+You have reached the end of the study. Thank you for your participation!
+</page>
+
+
+****************************************************************************************************
+general instruction expressions: adjust the instruction text depending on device used to run script
+****************************************************************************************************
+<expressions>
+/buttoninstruct1 = if (computer.touch) {"button";} else {"key";}
+</expressions>
+
+**************************************************************************************************************
+								!!!REMAINING CODE: Customize after careful consideration only!!!
+**************************************************************************************************************
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	DEFAULTS
+**************************************************************************************************************
+**************************************************************************************************************
+script requires Inquisit 5.0.0.0 or higher
+
+<defaults>
+/canvasaspectratio = (4,3)
+/minimumversion = "5.0.0.0"
+/ fontstyle = ("Arial", 3%, false, false, false, false, 5, 1)
+/txbgcolor = black
+/ txcolor = white
+/screencolor = black
+</defaults>
+
+****************************************************************************************************************
+****************************************************************************************************************
+	DATA: this section contains data file information
+****************************************************************************************************************
+****************************************************************************************************************
+
+********************
+raw data
+********************
+
+<data>
+/columns = (build, computer.platform, date, time, subject, group, blockcode, blocknum, trialcode, trialnum, 
+parameters.flicker_same, values.changetype, values.cuecondition, values.cue, 
+values.counttrials, values.count_cycles, values.currentpic, values.stimulus,
+response, values.responsepoint, values.alternations, latency, values.cycle_rt, 
+ values.textboxresponse, correct, values.textboxresponse_rt)
+/separatefiles = true
+</data>
+
+
+********************
+summary data
+********************
+
+<summarydata>
+/columns = (script.startdate, script.starttime, script.subjectid, script.groupid, script.elapsedtime, computer.platform, values.completed, parameters.runcuecondition, values.countresponses)
+/ separatefiles = true
+</summarydata>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	VALUES: automatically updated
+**************************************************************************************************************
+**************************************************************************************************************
+                                    
+/completed:								0 = script was not completed; 1 = script was completed (all conditions run)
+
+/cue:									the currently presented cue
+/currentpic:							the itemnumber of the currently presented pic
+/stimulus:								the stimulus run (StimA)
+
+/changetype:							"location", "presence/absence", "color" changes in the pictures
+/cuecondition:							1 = a cue is given; 2 = no cue is given (default unless parameters.runcuecondition = true)
+
+/count_cycles: 							counts the number of cycles started until a response occurs
+/alternations:							determines the alternations between original and altered pictures until response occurs
+											Note: each switch between originals and altered pictures as well as each switch between
+													altered pictures and original pictures is counted as an alternation.
+													=> for each completed cycle, participant go through 2 alternations;
+													if the response occurs after the change from original to altered pic in the last
+													cycle, one more alternation is added to the count.
+
+/counttrials:							counts the number of trials  
+
+/cycle_rt:								stores the combined cycle latencies across cycles until response occurs
+/presentationtime:						stores the presentation time of one cycle
+/current_cycleduration:					stores the maximum remaining time the current cycle continues if no response occurs
+
+/responsepoint:							determines the stimulus in the response cycle (the cycle that participant made a positive response)
+										that was presented when participant made response
+
+/responsepoint_set:						helper variable to determine values.responsepoint
+
+/textboxresponse:						stores the openended response
+/textboxresponse_rt:					stores the time it took participant to work on the openended response until pressing the button
+/countresponses:						counts how often participants pressed the Spacebar to report the change
+
+<values>
+/completed = 0
+/cue = ""
+/currentpic = 0
+/stimulus = ""
+
+/changetype = 0
+/cuecondition = 0
+
+/count_cycles = 0
+/alternations = 0
+/counttrials = 0
+
+/cycle_rt = 0
+/presentationtime = 0
+/current_cycleduration = 0
+
+/responsepoint = ""
+/responsepoint_set = 0
+/textboxresponse = ""
+/textboxresponse_rt = 0
+
+/countresponses = 0
+</values>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	STIMULI
+**************************************************************************************************************
+**************************************************************************************************************
+**************************************
+Helper Stimulus
+**************************************
+
+<shape eraser>
+/shape = rectangle
+/size = (100%, 100%)
+/color = black
+/position = (50%, 50%)
+</shape>
+
+**************************************
+Cue Stimulus
+**************************************
+
+<text cue>
+/items = ("<%values.cue%>")
+/txbgcolor = white
+/txcolor = black
+/size = (parameters.cueboxwidth, parameters.cueboxheight)
+/ fontstyle = ("Arial", parameters.cuetextheight, false, false, false, false, 5, 1)
+/position = (50%, 50%)
+/ hjustify = center
+/vjustify = center
+</text>
+
+
+********************************
+Practice Stimuli
+********************************
+
+<picture StimA_practice>
+/items = practice_stimA
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimB_practice>
+/items = practice_stimB
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+*****************************************
+Picture Stimuli by ChangeType
+*****************************************
+
+<picture StimA_location>
+/items = stimsA_location
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimB_location>
+/items = stimsB_location
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimA_presence>
+/items = stimsA_presence
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimB_presence>
+/items = stimsB_presence
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimA_color>
+/items = stimsA_color
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+<picture StimB_color>
+/items = stimsB_color
+/select = values.currentpic
+/size = (100%, parameters.picheight)
+/position = (50%, 50%)
+/erase = false
+</picture>
+
+*********************************************
+Instruction Text for openended.reportchange
+*********************************************
+
+<text reportchange>
+/items = reportchanges
+/select = 1
+/position = (50%, 30%) 
+/ fontstyle = ("Arial", 3%, false, false, false, false, 5, 1)
+/ txcolor = white
+/txbgcolor = black
+</text>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	LISTS	
+**************************************************************************************************************
+**************************************************************************************************************
+
+
+***********************************
+Practice Lists
+***********************************
+
+Note: this list randomly selects one of the practice pictures for the practice sessions
+<list picitemnumbers_practice>
+/poolsize = parameters.max_numberoftrials_practice
+/replace = false
+/resetinterval = 1
+</list>
+
+***********************************
+Test Lists: MIXED design
+***********************************
+
+Note: selects randomly without replacement a trial sequence presenting stimuli with location (1), presence/absence (2) or color changes
+=> each change type trial sequence is selected equally often
+<list changetype_Mixed>
+/items = (1, 2, 3)
+/poolsize = parameters.max_numberoftrials
+/replace = false
+/resetinterval = 1
+</list>
+
+***********************************
+Test Lists: BLOCKED design
+***********************************
+
+Note: selects randomly without replacement a trial sequence presenting stimuli with location (1), presence/absence (2) or color changes
+=> each change type trial sequence is selected equally often
+<list changetype_Blocked>
+/items = (1, 2, 3)
+/poolsize = parameters.max_numberoftrials/2
+/replace = false
+/resetinterval = 1
+</list>
+
+************************************************
+Stimulus Selection
+************************************************
+
+Note: this list randomly selects one of the test pictures for the test session for the location trial sequence
+!!! the number of stimuli depend on parameters.max_numberoftrials and assumes that item.stimsa_location
+contains 1/3 of all trials that will be presented
+!!!/resetinterval = 2 to assure random sampling of half the stimuli into the cue condition;
+the other half into the no cue condition if the block design is run (parameters.runcuecondition = "blocked").
+
+<list location_picitemnumbers>
+/poolsize = (parameters.max_numberoftrials/3)
+/replace = false
+/resetinterval = 2
+</list>
+
+Note: this list randomly selects one of the test pictures for the test session for the presence/absence trial sequence
+!!! the number of stimuli depend on parameters.max_numberoftrials and assumes that item.stimsa_presence
+contains 1/3 of all trials that will be presented
+<list presence_picitemnumbers>
+/poolsize = (parameters.max_numberoftrials/3)
+/replace = false
+/resetinterval = 2
+</list>
+
+Note: this list randomly selects one of the test pictures for the test session for the color trial sequence
+!!! the number of stimuli depend on parameters.max_numberoftrials and assumes that item.stimsa_color
+contains 1/3 of all trials that will be presented
+<list color_picitemnumbers>
+/poolsize = (parameters.max_numberoftrials/3)
+/replace = false
+/resetinterval = 2
+</list>
+
+
+*************************************************************
+Cue Lists for Mixed Cue Trials
+*************************************************************
+these lists are used for block.flicker_mixedcue.
+Half the trials are assigned a cue (1); the other half do not get cues (2).
+
+<list location_cuecondition_mixed>
+/items = (1,2)
+/poolsize = parameters.max_numberoftrials/3
+/replace = false
+/resetinterval = 1
+</list>
+
+<list presence_cuecondition_mixed>
+/items = (1,2)
+/poolsize = parameters.max_numberoftrials/3
+/replace = false
+/resetinterval = 1
+</list>
+
+<list color_cuecondition_mixed>
+/items = (1,2)
+/poolsize = parameters.max_numberoftrials/3
+/replace = false
+/resetinterval = 1
+</list>
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	TRIALS 	
+**************************************************************************************************************
+**************************************************************************************************************
+*************************************
+all experimental conditions
+*************************************
+
+Note:
+* trial.selectchangetype randomly without replacement selects the next trial sequence depending on changetype (location, presence, color)
+=> same number of location, presence, color trial sequences are run
+<trial selectchangetype>
+/ontrialbegin = [
+					values.counttrials += 1;
+					values.textboxresponse = ""; 
+					values.textboxresponse_rt = "";
+				]
+/ontrialbegin = [if (parameters.runcuecondition == "mixed") 
+					values.changetype = list.changetype_Mixed.nextvalue 
+				else 
+					values.changetype = list.changetype_blocked.nextvalue]
+/branch = [
+				if (values.changetype == 1) 
+					trial.cue_location
+				else if (values.changetype == 2) 
+					trial.cue_presence
+				else 
+					trial.cue_color
+			]
+/trialduration = 0
+/recorddata = false
+</trial>
+
+Note: openended.reportchange provides a textbox after each trial sequence to write in the specific change that was noticed (a response is required);
+IF the max number of trials hasn't be run yet, trial.selectchangetype is called once again to determine the next trial sequence.
+<openended reportchange>
+/charlimit = 20000
+/multiline = true
+/ numlines = 25
+/position = (50%, 70%)
+/size = (50%, 20%)
+/stimulusframes = [1 = reportchange]
+/required = true
+/recorddata = false
+/ontrialend = 	[
+					values.textboxresponse = openended.reportchange.response; 
+					values.textboxresponse_rt = openended.reportchange.latency;
+					values.countresponses += 1;
+				]
+/branch = [trial.savedata]
+</openended>
+
+<trial savedata>
+/trialduration = 0
+/recorddata = true
+/branch = [
+			if (script.currentblock == "practice")
+			{
+				if (values.counttrials < parameters.max_numberoftrials_practice)
+					trial.practicesequence
+				else notrial
+			}
+			else
+			{
+				if (parameters.runcuecondition == "mixed")
+					{
+						if (values.counttrials < parameters.max_numberoftrials)
+							trial.selectchangetype
+						else notrial
+					}
+				else 
+					{
+						if (values.counttrials < parameters.max_numberoftrials/2)
+							trial.selectchangetype
+						else notrial
+					}
+			 }
+		 ]
+</trial>
+
+******************************************************************
+Trial Sequence that presents stimuli with location changes
+*******************************************************************
+
+Notes:
+- trial.cue_location resets necessary variables
+- trial.cue_location randomly selects pictures (random selection without replacement)
+and determines values.interesttype (central/marginal) based on the selected itemnumber
+- trial.cue_location presents the selected cue for a predetermined time (parameters.cueduration)
+- calls trial.startscreen_location
+
+<trial cue_location>
+/ontrialbegin = [
+					values.count_cycles = 0; 
+					values.alternations = 0;
+					values.cycle_rt = 0;
+					values.responsepoint = "";
+					values.presentationtime = (2*parameters.StimA_Duration) + (2*parameters.StimB_Duration) + (2*parameters.flicker_different) + (2*parameters.flicker_same);
+					values.current_cycleduration = parameters.max_cycleduration;
+					values.currentpic = list.location_picitemnumbers.nextindex;
+
+					values.cuecondition = 2;
+					if (script.currentblock == "flicker_cue") 
+						values.cuecondition = 1;
+					if (script.currentblock == "flicker_mixedcue") 
+						values.cuecondition = list.location_cuecondition_mixed.nextvalue;
+					if (values.cuecondition == 1) 
+						values.cue = "location change" 
+					else 
+						values.cue = ""]
+
+/stimulusframes = [1 = eraser, cue]
+/trialduration = parameters.cueduration
+/recorddata = false
+/branch = [trial.startscreen_location]
+</trial>
+
+
+Note: trial presents a blank screen for a pre-determined time (parameters.startscreenduration)
+and then calls trial.cycle_location
+<trial startscreen_location>
+/stimulusframes = [1 = eraser]
+/trialduration = parameters.startscreenduration
+/branch = [trial.cycle_location]
+/recorddata = false
+</trial>
+
+Notes:
+- trial.cycle_location checks if values.presentationtime needs to be adjusted (this is the case if the max duration of the cycle is almost 
+up and there is not enough time for the regular presentation of one cycle)
+- trial.cycle_location dynamically inserts items into the stimulusframes (a dynamic way is chosen to allow max. flexibility in
+changing presentationtimes)
+- trial.cycle_location calls itself over and over again until a) a response is given or b) parameters.max_cycleduration is reached.
+Whichever comes first.
+- calls trial.determineresponsepoint_location when cycle is completed
+<trial cycle_location>
+/ontrialbegin = [
+					if (values.current_cycleduration <= values.presentationtime) 
+						values.presentationtime = values.current_cycleduration;
+					values.count_cycles += 1
+				]
+/ontrialbegin = [
+					trial.cycle_location.insertstimulustime(picture.stima_location, 0);
+					if (parameters.flicker_same > 0) 
+							trial.cycle_location.insertstimulustime(shape.eraser, parameters.StimA_Duration);
+					trial.cycle_location.insertstimulustime(picture.stima_location, (parameters.StimA_Duration + parameters.flicker_same));
+					if (parameters.flicker_different > 0) 
+							trial.cycle_location.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same));
+					trial.cycle_location.insertstimulustime(picture.stimb_location, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different));
+					if (parameters.flicker_same > 0) 
+							trial.cycle_location.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration));
+					trial.cycle_location.insertstimulustime(picture.stimb_location, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration));
+					if (parameters.flicker_different > 0) 
+							trial.cycle_location.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)))]
+/ontrialend = [trial.cycle_location.resetstimulusframes()]
+/beginresponsetime = -1
+/responseinterrupt = immediate
+/validresponse = (parameters.responsekey)
+/monkeyresponse = (parameters.responsekey, 0)
+/trialduration = (values.presentationtime)
+
+/ontrialend = 	[
+					values.stimulus = picture.stima_location.currentitem;
+					values.cycle_rt += trial.cycle_location.latency;
+				]
+
+/branch = [if (values.presentationtime < values.current_cycleduration && trial.cycle_location.response != parameters.responsekey) 
+				{
+					values.current_cycleduration -= values.presentationtime;
+					trial.cycle_location
+				}
+		else 
+					trial.determineresponsepoint_location]
+/recorddata = false
+</trial>
+
+
+Note: trial.determineresponsepoint_location determines 
+* the stimulus that was presented at the time of the response; if no response was given, values.responsepoint = "N/A"
+* the number of alternations before response based on values.responsepoint and values.count_cycles
+<trial determineresponsepoint_location>
+/ontrialbegin = [
+					if (trial.cycle_location.response != parameters.responsekey)
+							{
+								values.responsepoint = "N/A";
+								values.alternations = ""
+							}
+					else if (trial.cycle_location.latency <= parameters.StimA_Duration) 
+							{
+								values.responsepoint = "StimA1";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_location.latency <= (parameters.StimA_Duration + parameters.flicker_same) )
+							{
+								values.responsepoint = "flicker_AA";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same) )
+							{
+								values.responsepoint = "StimA2";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different) )
+							{
+								values.responsepoint = "flicker_AB";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "StimB1";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "flicker_BB";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "StimB2";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_location.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + (2*parameters.flicker_different) + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "flicker_BA";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else
+							{
+								values.responsepoint="N/A";
+								values.alternations=""
+							};
+			]
+/trialduration = 0
+/recorddata = false
+/branch = [
+			if (trial.cycle_location.response == parameters.responsekey) 
+					openended.reportchange 
+			else 
+					trial.savedata
+			]
+</trial>
+
+******************************************************************
+Trial Sequence that presents stimuli with presence/absence changes
+*******************************************************************
+
+Notes:
+- trial.cue_location resets necessary variables
+- trial.cue_location randomly selects pictures (random selection without replacement)
+and determines values.interesttype (central/marginal) based on the selected itemnumber
+- trial.cue_location presents the selected cue for a predetermined time (parameters.cueduration)
+- calls trial.startscreen_location
+<trial cue_presence>
+/ontrialbegin = [
+					values.count_cycles = 0; 
+					values.alternations = 0;
+					values.cycle_rt = 0;
+					values.responsepoint_set = 0; 
+					values.responsepoint = "";
+					values.presentationtime = (2*parameters.StimA_Duration) + (2*parameters.StimB_Duration) + (2*parameters.flicker_different) + (2*parameters.flicker_same);
+					values.current_cycleduration = parameters.max_cycleduration;
+					values.currentpic = list.presence_picitemnumbers.nextindex;
+					values.cuecondition = 2;
+					if (script.currentblock == "flicker_cue") 
+							values.cuecondition = 1;
+					if (script.currentblock == "flicker_mixedcue") 
+							values.cuecondition = list.presence_cuecondition_mixed.nextvalue;
+					if (values.cuecondition == 1) 
+						values.cue = "presence/absence change" 
+					else 
+						values.cue = ""
+				]
+/stimulusframes = [1 = eraser, cue]
+/trialduration = parameters.cueduration
+/recorddata = false
+/branch = [trial.startscreen_presence]
+</trial>
+
+Note: trial presents a blank screen for a pre-determined time (parameters.startscreenduration)
+and then calls trial.cycle_presence
+<trial startscreen_presence>
+/stimulusframes = [1 = eraser]
+/trialduration = parameters.startscreenduration
+/branch = [trial.cycle_presence]
+/recorddata = false
+</trial>
+
+Notes:
+- trial.cycle_presence checks if values.presentationtime needs to be adjusted (this is the case if the max duration of the cycle is almost 
+up and there is not enough time for the regular presentation of one cycle)
+- trial.cycle_presence dynamically inserts items into the stimulusframes (a dynamic way is chosen to allow max. flexibility in
+changing presentationtimes)
+- trial.cycle_presence calls itself over and over again until a) a response is given or b) parameters.max_cycleduration is reached.
+Whichever comes first.
+- calls trial.determineresponsepoint_presence when cycle is completed
+<trial cycle_presence>
+/ontrialbegin = [
+					if (values.current_cycleduration <= values.presentationtime) 
+						values.presentationtime = values.current_cycleduration;
+					values.count_cycles += 1;
+				]
+
+/ontrialbegin = [
+					trial.cycle_presence.insertstimulustime(picture.stima_presence, 0);
+					if (parameters.flicker_same > 0) 
+						trial.cycle_presence.insertstimulustime(shape.eraser, parameters.StimA_Duration);
+					trial.cycle_presence.insertstimulustime(picture.stima_presence, (parameters.StimA_Duration + parameters.flicker_same));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_presence.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same));
+					trial.cycle_presence.insertstimulustime(picture.stimb_presence, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different));
+					if (parameters.flicker_same > 0) 
+						trial.cycle_presence.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration));
+					trial.cycle_presence.insertstimulustime(picture.stimb_presence, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_presence.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)))
+				]
+/ontrialend = [trial.cycle_presence.resetstimulusframes()]
+/beginresponsetime = -1
+/responseinterrupt = immediate
+/validresponse = (parameters.responsekey)
+/monkeyresponse = (parameters.responsekey, 0)
+/trialduration = (values.presentationtime)
+
+/ontrialend = [
+				values.stimulus = picture.stima_presence.currentitem;
+				values.cycle_rt += trial.cycle_presence.latency
+				]
+
+/branch = [
+			if (values.presentationtime < values.current_cycleduration && trial.cycle_presence.response != parameters.responsekey) 
+				{
+					values.current_cycleduration -= values.presentationtime;
+					trial.cycle_presence
+				}
+			else 
+					trial.determineresponsepoint_presence
+		]
+/recorddata = false
+</trial>
+
+
+Note: trial.determineresponsepoint_presence determines 
+* the stimulus that was presented at the time of the response; if no response was given, values.responsepoint = "N/A"
+* the number of alternations before response based on values.responsepoint and values.count_cycles
+<trial determineresponsepoint_presence>
+/ontrialbegin = [
+					if (trial.cycle_presence.response != parameters.responsekey)
+							{
+								values.responsepoint = "N/A";
+								values.alternations = ""
+							}
+					else if (trial.cycle_presence.latency <= parameters.StimA_Duration) 
+							{
+								values.responsepoint = "StimA1";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_presence.latency <= (parameters.StimA_Duration + parameters.flicker_same) )
+							{
+								values.responsepoint = "flicker_AA";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same) )
+							{
+								values.responsepoint = "StimA2";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different) )
+							{
+								values.responsepoint = "flicker_AB";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "StimB1";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "flicker_BB";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "StimB2";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_presence.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + (2*parameters.flicker_different) + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "flicker_BA";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else
+							{
+								values.responsepoint="N/A";
+								values.alternations=""
+							};
+			]
+/trialduration = 0
+/recorddata = false
+/branch = [
+				if (trial.cycle_presence.response == parameters.responsekey) 
+					openended.reportchange
+				else 
+					trial.savedata]
+</trial>
+
+******************************************************************
+Trial Sequence that presents stimuli with color changes
+*******************************************************************
+
+Notes:
+- trial.cue_color resets necessary variables
+- trial.cue_color randomly selects pictures (random selection without replacement)
+and determines values.interesttype (central/marginal) based on the selected itemnumber
+- trial.cue_color presents the selected cue for a predetermined time (parameters.cueduration)
+- calls trial.startscreen_color
+<trial cue_color>
+/ontrialbegin = [
+					values.count_cycles = 0; 
+					values.alternations = 0;
+					values.cycle_rt = 0;
+					values.responsepoint = "";
+					values.presentationtime = (2*parameters.StimA_Duration) + (2*parameters.StimB_Duration) + (2*parameters.flicker_different) + (2*parameters.flicker_same);
+					values.current_cycleduration = parameters.max_cycleduration;
+					values.currentpic = list.color_picitemnumbers.nextindex;
+					values.cuecondition = 2;
+					if (script.currentblock == "flicker_cue") 
+						values.cuecondition = 1;
+					if (script.currentblock == "flicker_mixedcue") 
+						values.cuecondition = list.color_cuecondition_mixed.nextvalue;
+					if (values.cuecondition == 1) 
+						values.cue = "color change" 
+					else 
+						values.cue = ""
+				]
+/stimulusframes = [1 = eraser, cue]
+/trialduration = parameters.cueduration
+/recorddata = false
+/branch = [trial.startscreen_color]
+</trial>
+
+Note: trial presents a blank screen for a pre-determined time (parameters.startscreenduration)
+and then calls trial.cycle_color
+<trial startscreen_color>
+/stimulusframes = [1 = eraser]
+/trialduration = parameters.startscreenduration
+/branch = [trial.cycle_color]
+/recorddata = false
+</trial>
+
+Notes:
+- trial.cycle_color checks if values.presentationtime needs to be adjusted (this is the case if the max duration of the cycle is almost 
+up and there is not enough time for the regular presentation of one cycle)
+- trial.cycle_color dynamically inserts items into the stimulusframes (a dynamic way is chosen to allow max. flexibility in
+changing presentationtimes)
+- trial.cycle_color calls itself over and over again until a) a response is given or b) parameters.max_cycleduration is reached.
+Whichever comes first.
+- calls trial.determineresponsepoint_color when cycle is completed
+<trial cycle_color>
+/ontrialbegin = [
+					if (values.current_cycleduration <= values.presentationtime) 
+						values.presentationtime = values.current_cycleduration;
+					values.count_cycles += 1
+				]
+/ontrialbegin = [
+					trial.cycle_color.insertstimulustime(picture.stima_color, 0);
+					if (parameters.flicker_same > 0) 
+						trial.cycle_color.insertstimulustime(shape.eraser, parameters.StimA_Duration);
+					trial.cycle_color.insertstimulustime(picture.stima_color, (parameters.StimA_Duration + parameters.flicker_same));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_color.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same));
+					trial.cycle_color.insertstimulustime(picture.stimb_color, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different));
+					if (parameters.flicker_same > 0) {
+						trial.cycle_color.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration))};
+					trial.cycle_color.insertstimulustime(picture.stimb_color, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_color.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)));
+				]
+/ontrialend = [trial.cycle_color.resetstimulusframes()]
+/beginresponsetime = -1
+/responseinterrupt = immediate
+/validresponse = (parameters.responsekey)
+/monkeyresponse = (parameters.responsekey, 0)
+/trialduration = (values.presentationtime)
+
+/ontrialend = [
+					values.stimulus = picture.stima_color.currentitem;
+					values.cycle_rt += trial.cycle_color.latency
+				]
+
+/branch = [
+			if (values.presentationtime < values.current_cycleduration && trial.cycle_color.response != parameters.responsekey) 
+				{
+					values.current_cycleduration -= values.presentationtime;
+					trial.cycle_color
+				}
+			else 
+					trial.determineresponsepoint_color
+		]
+/recorddata = false
+</trial>
+
+Note: trial.determineresponsepoint_color determines 
+* the stimulus that was presented at the time of the response; if no response was given, values.responsepoint = "N/A"
+* the number of alternations before response based on values.responsepoint and values.count_cycles
+<trial determineresponsepoint_color>
+/ontrialbegin = [
+					if (trial.cycle_color.response != parameters.responsekey)
+							{
+								values.responsepoint = "N/A";
+								values.alternations = ""
+							}
+					else if (trial.cycle_color.latency <= parameters.StimA_Duration) 
+							{
+								values.responsepoint = "StimA1";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_color.latency <= (parameters.StimA_Duration + parameters.flicker_same) )
+							{
+								values.responsepoint = "flicker_AA";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same) )
+							{
+								values.responsepoint = "StimA2";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different) )
+							{
+								values.responsepoint = "flicker_AB";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "StimB1";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "flicker_BB";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "StimB2";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_color.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + (2*parameters.flicker_different) + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "flicker_BA";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else
+							{
+								values.responsepoint="N/A";
+								values.alternations=""
+							};
+			]
+/trialduration = 0
+/recorddata = false
+/branch = [
+			if (trial.cycle_color.response == parameters.responsekey) 
+					openended.reportchange 
+			else 
+					trial.savedata]
+</trial>
+
+******************************************************************
+Trial Sequence for practice sequences
+*******************************************************************
+
+Notes:
+- trial.cue_location resets necessary variables
+- trial.cue_location randomly selects pictures (random selection without replacement)
+and determines values.interesttype (central/marginal) based on the selected itemnumber
+- trial.cue_location presents the selected cue for a predetermined time (parameters.cueduration)
+- calls trial.startscreen_location
+
+
+/ontrialbegin = [if (script.currentblock == "practice" && values.currentpic <= (item.originalpics_practice.itemcount/2) ) values.interesttype = "central" else values.interesttype = "marginal"]
+
+<trial practicesequence>
+/ontrialbegin = [
+					values.counttrials += 1;
+					values.count_cycles = 0; 
+					values.alternations = 0;
+					values.cycle_rt = 0;
+					values.responsepoint = "";
+					values.presentationtime = (2*parameters.StimA_Duration) + (2*parameters.StimB_Duration) + (2*parameters.flicker_different) + (2*parameters.flicker_same);
+					values.current_cycleduration = parameters.max_cycleduration;
+					values.currentpic = list.picitemnumbers_practice.nextindex;
+					values.changetype = "practice";
+					values.cuecondition = 2;
+					values.cue = "";
+				]
+/stimulusframes = [1 = eraser, cue]
+/trialduration = parameters.cueduration
+/recorddata = false
+/branch = [trial.startscreen_practice]
+</trial>
+
+Note: trial presents a blank screen for a pre-determined time (parameters.startscreenduration)
+and then calls trial.cycle_practice
+<trial startscreen_practice>
+/stimulusframes = [1 = eraser]
+/trialduration = parameters.startscreenduration
+/branch = [trial.cycle_practice]
+/recorddata = false
+</trial>
+
+Notes:
+- trial.cycle_practice checks if values.presentationtime needs to be adjusted (this is the case if the max duration of the cycle is almost 
+up and there is not enough time for the regular presentation of one cycle)
+- trial.cycle_practice dynamically inserts items into the stimulusframes (a dynamic way is chosen to allow max. flexibility in
+changing presentationtimes)
+- trial.cycle_practice calls itself over and over again until a) a response is given or b) parameters.max_cycleduration is reached.
+Whichever comes first.
+- calls trial.determineresponsepoint_practice when cycle is completed
+<trial cycle_practice>
+/ontrialbegin = [
+					if (values.current_cycleduration <= values.presentationtime) 
+						values.presentationtime = values.current_cycleduration;
+					values.count_cycles += 1
+				]
+/ontrialbegin = [
+					trial.cycle_practice.insertstimulustime(picture.StimA_practice, 0);
+					if (parameters.flicker_same > 0) 
+						trial.cycle_practice.insertstimulustime(shape.eraser, parameters.StimA_Duration);
+					trial.cycle_practice.insertstimulustime(picture.StimA_practice, (parameters.StimA_Duration + parameters.flicker_same));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_practice.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same));
+					trial.cycle_practice.insertstimulustime(picture.StimB_practice, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different));
+					if (parameters.flicker_same > 0) 
+						trial.cycle_practice.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration));
+					trial.cycle_practice.insertstimulustime(picture.StimB_practice, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration));
+					if (parameters.flicker_different > 0) 
+						trial.cycle_practice.insertstimulustime(shape.eraser, ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)));
+				]
+/ontrialend = [trial.cycle_practice.resetstimulusframes()]
+/beginresponsetime = -1
+/responseinterrupt = immediate
+/validresponse = (parameters.responsekey)
+/monkeyresponse = (parameters.responsekey, 0)
+/trialduration = (values.presentationtime)
+
+/ontrialend = [
+				values.stimulus = picture.stima_practice.currentitem;
+				values.cycle_rt += trial.cycle_practice.latency;
+				]
+/branch = [
+			if (values.presentationtime < values.current_cycleduration && trial.cycle_practice.response != parameters.responsekey) 
+				{
+					values.current_cycleduration -= values.presentationtime;
+					trial.cycle_practice
+				}
+			else
+					trial.determineresponsepoint_practice
+			]
+/recorddata = false
+</trial>
+
+
+Note: trial.determineresponsepoint_practice determines 
+* the stimulus that was presented at the time of the response; if no response was given, values.responsepoint = "N/A"
+* the number of alternations before response based on values.responsepoint and values.count_cycles
+<trial determineresponsepoint_practice>
+/ontrialbegin = [
+					if (trial.cycle_practice.response != parameters.responsekey)
+							{
+								values.responsepoint = "N/A";
+								values.alternations = ""
+							}
+					else if (trial.cycle_practice.latency <= parameters.StimA_Duration) 
+							{
+								values.responsepoint = "StimA1";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_practice.latency <= (parameters.StimA_Duration + parameters.flicker_same) )
+							{
+								values.responsepoint = "flicker_AA";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same) )
+							{
+								values.responsepoint = "StimA2";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different) )
+							{
+								values.responsepoint = "flicker_AB";
+								values.alternations = (values.count_cycles - 1) * 2
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + parameters.flicker_same + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "StimB1";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + parameters.StimB_Duration) )
+							{
+								values.responsepoint = "flicker_BB";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + parameters.flicker_different + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "StimB2";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else if (trial.cycle_practice.latency <= ((2*parameters.StimA_Duration) + (2*parameters.flicker_same) + (2*parameters.flicker_different) + (2*parameters.StimB_Duration)) )
+							{
+								values.responsepoint = "flicker_BA";
+								values.alternations = (values.count_cycles - 1) * 2 + 1
+							}
+					else
+							{}
+			]
+/trialduration = 0
+/recorddata = false
+/branch = [
+			if (trial.cycle_practice.response == parameters.responsekey) 
+				openended.reportchange 
+			else 
+				trial.savedata
+			]
+</trial>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	BLOCKS
+**************************************************************************************************************
+**************************************************************************************************************
+
+<block practice>
+/preinstructions = (Practice)
+/postinstructions = (PracticeEnd)
+/onblockbegin  = [values.counttrials = 0;]
+/trials = [1 = practicesequence]
+/ onblockend = [values.countresponses = 0]
+</block>
+
+NOTES:
+* block.flicker_mixedcue only runs if parameters.runcuecondition = "mixed"
+* it runs as many trials as specified by parameters.max_numberoftrials
+<block flicker_mixedcue>
+/preinstructions = (MixedCue)
+/skip = [parameters.runcuecondition != "mixed"]
+/onblockbegin  = [values.counttrials = 0;]
+/trials = [1 = selectchangetype]
+</block>
+
+NOTES:
+* block.flickercue/block.flicker_mixedcue only runs if parameters.runcuecondition is NOT "mixed"
+* it runs half the trials as specified by parameters.max_numberoftrials (as the stimuli
+have to be randomly divided between 2 conditions)
+
+<block flicker_nocue>
+/preinstructions = (NoCue)
+/skip = [parameters.runcuecondition == "mixed"]
+/onblockbegin  = [values.counttrials = 0]
+/trials = [1 = selectchangetype]
+</block>
+
+<block flicker_cue>
+/preinstructions = (Cue)
+/skip = [parameters.runcuecondition == "mixed"]
+/onblockbegin  = [values.counttrials = 0]
+/trials = [1 = selectchangetype]
+</block>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EXPERIMENT 
+**************************************************************************************************************
+**************************************************************************************************************
+
+The default order of the experiment is
+
+1. block.practice
+2. block.flicker_mixedcue IF parameters.runcuecondition = "mixed"
+
+IF parameters.runcuecondition == "blocked": block.flicker_mixedcue is skipped and the script randomly selects the order
+of block.flicker_cue and block.flicker_nocue
+
+<expt>
+/preinstructions = (Intro1, Intro2, Intro3)
+/postinstructions = (end)
+/blocks = [
+			1= practice; 
+			2 = flicker_mixedcue; 
+			3-4 = noreplace(flicker_nocue, flicker_cue)
+			]
+/onexptend = [values.completed = 1]
+</expt>
+
+
+
+**************************************************************************************************************
+												End of File
+**************************************************************************************************************
