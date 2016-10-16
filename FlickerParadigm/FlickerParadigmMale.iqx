@@ -149,7 +149,7 @@ Editable Values
 						
 <values>
 /responsekey = 57
-/responsekey_label = "SPACEBAR"
+/responsekey_label = "SPATIEBALK"
 
 /cueboxheight = 10%
 /cueboxwidth = 60%
@@ -157,7 +157,7 @@ Editable Values
 
 /picheight = 70%
 
-/cueduration = 0
+/cueduration = 3000
 /startscreenduration = 1000
 /StimA_Duration = 240
 /StimB_Duration = 240
@@ -169,7 +169,7 @@ Editable Values
 /max_numberoftrials  = 9
 /max_numberoftrials_practice = 1
 
-/runcuecondition = "mixed"
+/runcuecondition = ""
 </values>
 
 
@@ -255,11 +255,11 @@ Practice Stimuli
 *****************************
 
 <item practice_stimA>
-/1 = "CornerA_C.png"
+/1 = "male/TimeSquareMaleA_P.jpg"
 </item>
 
 <item practice_stimB>
-/1 = "CornerB_C.png"
+/1 = "male/TimeSquareMaleB_P.jpg"
 </item>
 
 ***************************************************************************************
@@ -270,7 +270,7 @@ Editable Instructions
 
 Note: edit the instructions to report the observed changes here
 <item reportchanges>
-/1 = "Please describe what changed in the pictures in the textbox below. Be as specific as you can be."
+/1 = "Geef een nauwkeurige beschrijving van de verandering in het onderstaande tekstvak. Wees zo specifiek mogelijk."
 </item>
 
 
@@ -278,11 +278,11 @@ Note: edit the instructions to report the observed changes here
 /windowsize = (90%, 90%)
 / fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
 / txcolor = (black)
-/ finishlabel = "SPACEBAR to continue"
+/ finishlabel = "Spatiebalk om verder te gaan"
 /nextkey = (57)
-/nextlabel = "SPACEBAR to continue"
+/nextlabel = "Spatiebalk om verder te gaan"
 /prevkey = (28)
-/prevlabel = "ENTER to go back"
+/prevlabel = "ENTER om terug te gaan"
 </instruct>
 
 
@@ -322,7 +322,7 @@ in a simple text editor such as Notepad (for example) and edit instructions in t
 </htmlpage>
 
 <page end>
-You have reached the end of the study. Thank you for your participation!
+Dit is het einde van de opdracht. Bedankt voor uw deelname!
 </page>
 
 *******************************************************************************************************************
@@ -732,7 +732,7 @@ Note:
 Note: openended.reportchange provides a textbox after each trial sequence to write in the specific change that was noticed (a response is required);
 IF the max number of trials hasn't be run yet, trial.selectchangetype is called once again to determine the next trial sequence.
 <openended reportchange>
-/ buttonlabel = "CTRL-ENTER to finish"
+/ buttonlabel = "CTRL-ENTER om te beeindigen"
 /charlimit = 20000
 /multiline = true
 / numlines = 25
@@ -1284,7 +1284,7 @@ of block.flicker_cue and block.flicker_nocue
 <expt >
 /preinstructions = (Intro1, Intro2, Intro3)
 /postinstructions = (end)
-/blocks = [1= practice; 2 = flicker_mixedcue; 3-4 = noreplace(flicker_nocue, flicker_cue)]
+/blocks = [1= practice; 2 = flicker_nocue;]
 /onexptend = [values.completed = 1]
 </expt>
 

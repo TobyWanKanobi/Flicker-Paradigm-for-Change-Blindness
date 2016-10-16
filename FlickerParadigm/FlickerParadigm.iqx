@@ -232,6 +232,7 @@ Stimuli with Presence/Absence Changes
 *****************************
 Stimuli with Color Changes
 ******************************
+
 <item stimsA_color>
 /1 = "female/color1a.jpg"
 /2 = "female/color2a.jpg"
@@ -249,11 +250,11 @@ Practice Stimuli
 *****************************
 
 <item practice_stimA>
-/1 = "female/change1a.jpg"
+/1 = "male/33715.jpg"
 </item>
 
 <item practice_stimB>
-/1 = "female/change1b.jpg"
+/1 = "male/33715.jpg"
 </item>
 
 ***************************************************************************************
