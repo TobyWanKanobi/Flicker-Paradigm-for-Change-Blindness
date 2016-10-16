@@ -767,7 +767,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.location_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "location change" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
 
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
@@ -884,7 +884,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.presence_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "presence/absence change" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
 /recorddata = false
@@ -1000,7 +1000,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.color_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "color change" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
 
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
