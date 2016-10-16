@@ -198,11 +198,13 @@ Stimuli with Location Changes
 <item stimsA_location>
 /1 = "female/location1a.jpg"
 /2 = "female/location2a.jpg"
+/3 = "female/location3a.jpg"
 </item>
 
 <item stimsB_location>
 /1 = "female/location1b.jpg"
 /2 = "female/location2b.jpg" 
+/3 = "female/location3b.jpg"
 </item> 
 
 *****************************
@@ -210,26 +212,30 @@ Stimuli with Presence/Absence Changes
 ******************************
 
 <item stimsA_presence>
-/1 = "AirplaneA_P.png"
-/2 = "HarborsideA_P.png"
+/1 = "female/absence1a.jpg"
+/2 = "female/absence2a.jpg"
+/3 = "female/absence3a.jpg"
 </item>
 
 <item stimsB_presence>
-/1 = "AirplaneB_P.png"
-/2 = "HarborsideB_P.png"
+/1 = "female/absence1b.jpg"
+/2 = "female/absence2b.jpg"
+/3 = "female/absence3b.jpg"
 </item>
 
 *****************************
 Stimuli with Color Changes
 ******************************
 <item stimsA_color>
-/1 = "MoneyA_C.png"
-/2 = "MarketA_C.png"
+/1 = "female/color1a.jpg"
+/2 = "female/color2a.jpg"
+/3 = "female/color3a.jpg"
 </item>
 
 <item stimsB_color>
-/1 = "MoneyB_C.png"
-/2 = "MarketB_C.png"
+/1 = "female/color1b.jpg"
+/2 = "female/color2b.jpg"
+/3 = "female/color3b.jpg"
 </item>
 
 *****************************
@@ -237,11 +243,11 @@ Practice Stimuli
 *****************************
 
 <item practice_stimA>
-/1 = "CornerA_C.png"
+/1 = "female/change1a.jpg"
 </item>
 
 <item practice_stimB>
-/1 = "CornerB_C.png"
+/1 = "female/change1b.jpg"
 </item>
 
 ***************************************************************************************
