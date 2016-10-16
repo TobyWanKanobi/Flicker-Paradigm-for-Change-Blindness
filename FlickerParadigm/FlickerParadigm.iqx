@@ -166,7 +166,7 @@ Editable Values
 
 /max_cycleduration = 60000
 
-/max_numberoftrials  = 6
+/max_numberoftrials  = 9
 /max_numberoftrials_practice = 1
 
 /runcuecondition = "mixed"
@@ -217,12 +217,16 @@ Stimuli with Presence/Absence Changes
 /1 = "female/absence1a.jpg"
 /2 = "female/absence2a.jpg"
 /3 = "female/absence3a.jpg"
+/4 = "female/absence4a.jpg"
+/5 = "female/absence5a.jpg"
 </item>
 
 <item stimsB_presence>
 /1 = "female/absence1b.jpg"
 /2 = "female/absence2b.jpg"
 /3 = "female/absence3b.jpg"
+/4 = "female/absence4b.jpg"
+/5 = "female/absence5b.jpg"
 </item>
 
 *****************************
