@@ -1,8 +1,0 @@
-date	time	subject	group	blockcode	blocknum	trialcode	trialnum	values.flicker_same	values.changetype	values.cuecondition	values.cue	values.counttrials	values.count_cycles	values.currentpic	values.stimulus	response	values.responsepoint	values.alternations	latency	values.cycle_rt	values.textboxresponse	correct	values.textboxresponse_rt
-101616	13:57:39	1	1	practice	1	savedata	6	80	practice	2		1	1	1	CornerA_C.png	0	StimB1	1	0	703	iets	0	2208
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	8	80	1	1	location change	1	2	1	female/location1a.jpg	0	StimB1	3	0	2053	iets	0	2030
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	15	80	3	1	color change	2	1	1	MoneyA_C.png	0	StimB1	1	0	646	iets	0	1876
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	22	80	2	1	presence/absence change	3	1	2	HarborsideA_P.png	0	StimB2	1	0	1042	iets	0	2435
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	29	80	2	2		4	1	1	AirplaneA_P.png	0	StimB1	1	0	741	iets	0	1909
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	36	80	3	2		5	1	2	MarketA_C.png	0	flicker_AB	0	0	636	iets	0	1972
-101616	13:57:39	1	1	flicker_mixedcue	2	savedata	44	80	1	2		6	2	2	female/location2a.jpg	0	StimB2	3	0	2372	iets	0	1849
