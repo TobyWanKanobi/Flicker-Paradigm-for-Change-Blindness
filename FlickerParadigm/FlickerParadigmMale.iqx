@@ -278,9 +278,9 @@ Note: edit the instructions to report the observed changes here
 /windowsize = (90%, 90%)
 / fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
 / txcolor = (black)
-/ finishlabel = "Spatiebalk om verder te gaan"
+/ finishlabel = "SPATIEBALK om verder te gaan"
 /nextkey = (57)
-/nextlabel = "Spatiebalk om verder te gaan"
+/nextlabel = "SPATIEBALK om verder te gaan"
 /prevkey = (28)
 /prevlabel = "ENTER om terug te gaan"
 </instruct>
@@ -322,7 +322,7 @@ in a simple text editor such as Notepad (for example) and edit instructions in t
 </htmlpage>
 
 <page end>
-Dit is het einde van de opdracht. Bedankt voor uw deelname!
+Dit is het einde van het experiment. Bedankt voor uw deelname!
 </page>
 
 *******************************************************************************************************************

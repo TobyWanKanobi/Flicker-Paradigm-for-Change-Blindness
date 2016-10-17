@@ -169,7 +169,7 @@ Editable Values
 /max_numberoftrials  = 9
 /max_numberoftrials_practice = 1
 
-/runcuecondition = "mixed"
+/runcuecondition = ""
 </values>
 
 
@@ -250,11 +250,11 @@ Practice Stimuli
 *****************************
 
 <item practice_stimA>
-/1 = "male/33715.jpg"
+/1 = "male/TimeSquareMaleA_P.jpg"
 </item>
 
 <item practice_stimB>
-/1 = "male/33715.jpg"
+/1 = "male/TimeSquareMaleB_P.jpg"
 </item>
 
 ***************************************************************************************
@@ -265,7 +265,7 @@ Editable Instructions
 
 Note: edit the instructions to report the observed changes here
 <item reportchanges>
-/1 = "Wat is er veranderd in de afbeelding?"
+/1 = "Geef een nauwkeurige beschrijving van de verandering in het onderstaande tekstvak. Wees zo specifiek mogelijk."
 </item>
 
 
@@ -273,9 +273,9 @@ Note: edit the instructions to report the observed changes here
 /windowsize = (90%, 90%)
 / fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
 / txcolor = (black)
-/ finishlabel = "SPACEBAR om door te gaan"
+/ finishlabel = "SPATIEBALK om verder te gaan"
 /nextkey = (57)
-/nextlabel = "SPACEBAR om door te gaan"
+/nextlabel = "SPATIEBALK om verder te gaan"
 /prevkey = (28)
 /prevlabel = "ENTER om terug te gaan"
 </instruct>
@@ -317,7 +317,7 @@ in a simple text editor such as Notepad (for example) and edit instructions in t
 </htmlpage>
 
 <page end>
-Je bent bij het eind gekomen van dit experiment. Bedankt voor het deelnemen!
+Dit is het einde van het experiment. Bedankt voor uw deelname!
 </page>
 
 *******************************************************************************************************************
@@ -727,7 +727,7 @@ Note:
 Note: openended.reportchange provides a textbox after each trial sequence to write in the specific change that was noticed (a response is required);
 IF the max number of trials hasn't be run yet, trial.selectchangetype is called once again to determine the next trial sequence.
 <openended reportchange>
-/ buttonlabel = "CTRL-ENTER to finish"
+/ buttonlabel = "CTRL-ENTER om te beeindigen"
 /charlimit = 20000
 /multiline = true
 / numlines = 25
@@ -1279,7 +1279,7 @@ of block.flicker_cue and block.flicker_nocue
 <expt >
 /preinstructions = (Intro1, Intro2, Intro3)
 /postinstructions = (end)
-/blocks = [1= practice; 2 = flicker_mixedcue; 3-4 = noreplace(flicker_nocue, flicker_cue)]
+/blocks = [1= practice; 2 = flicker_nocue]
 /onexptend = [values.completed = 1]
 </expt>
 
