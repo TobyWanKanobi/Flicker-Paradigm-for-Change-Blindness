@@ -167,6 +167,7 @@ Editable Values
 /max_cycleduration = 60000
 
 /max_numberoftrials  = 18
+/max_numberoftrials  = 18
 /max_numberoftrials_practice = 1
 
 /runcuecondition = "blocked"
@@ -488,7 +489,7 @@ requires Inquisit 4.0.4.0
 
 /responsepoint = ""
 /responsepoint_set = 0
-/textboxresponse = "" 
+/textboxresponse = ""
 /textboxresponse_rt = 0
 </values>
 
@@ -1294,7 +1295,7 @@ of block.flicker_cue and block.flicker_nocue
 <expt >
 /preinstructions = (Intro1, Intro2, Intro3)
 /postinstructions = (end)
-/blocks = [1= practice; 2 = flicker_nocue;]
+/blocks = [1= practice; 2 = flicker_nocue; 3 = flicker_nocue]
 /onexptend = [values.completed = 1]
 </expt>
 
