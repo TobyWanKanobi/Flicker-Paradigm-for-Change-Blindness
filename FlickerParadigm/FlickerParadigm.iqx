@@ -169,7 +169,7 @@ Editable Values
 /max_numberoftrials  = 18
 /max_numberoftrials_practice = 1
 
-/runcuecondition = ""
+/runcuecondition = "blocked"
 </values>
 
 
