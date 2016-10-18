@@ -1,0 +1,11 @@
+date	time	subject	group	blockcode	blocknum	trialcode	trialnum	values.flicker_same	values.changetype	values.cuecondition	values.cue	values.counttrials	values.count_cycles	values.currentpic	values.stimulus	response	values.responsepoint	values.alternations	latency	values.cycle_rt	values.textboxresponse	correct	values.textboxresponse_rt
+101816	15:57:46	1	1	practice	1	savedata	6	80	practice	2		1	1	1	DinnerA_L.png	0	StimB1	1	0	844	  	0	1829
+101816	15:57:46	1	1	flicker_nocue	2	savedata	7	80	2	2		1	1	5	stimuli/Male3A_P.jpg	0	StimB2	1	0	993	 	0	957
+101816	15:57:46	1	1	flicker_nocue	2	savedata	14	80	1	2		2	1	4	stimuli/Male6A_L.jpg	0	StimA2	0	0	342	 	0	1001
+101816	15:57:46	1	1	flicker_nocue	2	savedata	21	80	1	2		3	1	5	stimuli/Male7A_L.jpg	0	StimA2	0	0	356	 	0	874
+101816	15:57:46	1	1	flicker_nocue	2	savedata	28	80	2	2		4	1	1	stimuli/Female2A_P.jpg	0	flicker_AA	0	0	249	 	0	764
+101816	15:57:46	1	1	flicker_nocue	2	savedata	35	80	3	2		5	1	5	stimuli/Male5A_C.jpg	0	flicker_AB	0	0	629	 	0	793
+101816	15:57:46	1	1	flicker_nocue	2	savedata	42	80	2	2		6	1	6	stimuli/Male4A_P.jpg	0	StimB1	1	0	781	 	0	1203
+101816	15:57:46	1	1	flicker_nocue	2	savedata	49	80	3	2		7	1	6	stimuli/Male9A_C.jpg	0	flicker_AA	0	0	280	 	0	775
+101816	15:57:46	1	1	flicker_nocue	2	savedata	56	80	3	2		8	1	4	stimuli/Male1A_C.jpg	0	flicker_AA	0	0	268	 	0	741
+101816	15:57:46	1	1	flicker_nocue	2	savedata	63	80	1	2		9	1	6	stimuli/Male8A_L.jpg	0	StimA2	0	0	546	 	0	893

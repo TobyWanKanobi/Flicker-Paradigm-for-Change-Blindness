@@ -149,7 +149,7 @@ Editable Values
 						
 <values>
 /responsekey = 57
-/responsekey_label = "SPACEBAR"
+/responsekey_label = "SPATIEBALK"
 
 /cueboxheight = 10%
 /cueboxwidth = 60%
@@ -166,7 +166,7 @@ Editable Values
 
 /max_cycleduration = 60000
 
-/max_numberoftrials  = 9
+/max_numberoftrials  = 18
 /max_numberoftrials_practice = 1
 
 /runcuecondition = ""
@@ -196,17 +196,21 @@ Stimuli with Location Changes
 ******************************
 
 <item stimsA_location>
-/1 = "female/location1a.jpg"
-/2 = "female/location2a.jpg"
-/3 = "female/location3a.jpg"
-/4 = "female/change2a.jpg"
+/1 = "stimuli/Female3A_L.jpg"
+/2 = "stimuli/Female7A_L.jpg"
+/3 = "stimuli/Female9A_L.jpg"
+/4 = "stimuli/Male6A_L.jpg"
+/5 = "stimuli/Male7A_L.jpg"
+/6 = "stimuli/Male8A_L.jpg"
 </item>
 
 <item stimsB_location>
-/1 = "female/location1b.jpg"
-/2 = "female/location2b.jpg" 
-/3 = "female/location3b.jpg"
-/4 = "female/change2b.jpg"
+/1 = "stimuli/Female3B_L.jpg"
+/2 = "stimuli/Female7B_L.jpg"
+/3 = "stimuli/Female9B_L.jpg"
+/4 = "stimuli/Male6B_L.jpg"
+/5 = "stimuli/Male7B_L.jpg"
+/6 = "stimuli/Male8B_L.jpg"
 </item> 
 
 *****************************
@@ -214,35 +218,42 @@ Stimuli with Presence/Absence Changes
 ******************************
 
 <item stimsA_presence>
-/1 = "female/absence1a.jpg"
-/2 = "female/absence2a.jpg"
-/3 = "female/absence3a.jpg"
-/4 = "female/absence4a.jpg"
-/5 = "female/absence5a.jpg"
+/1 = "stimuli/Female2A_P.jpg"
+/2 = "stimuli/Female5A_P.jpg"
+/3 = "stimuli/Female6A_P.jpg"
+/4 = "stimuli/Male2A_P.jpg"
+/5 = "stimuli/Male3A_P.jpg"
+/6 = "stimuli/Male4A_P.jpg"
 </item>
 
 <item stimsB_presence>
-/1 = "female/absence1b.jpg"
-/2 = "female/absence2b.jpg"
-/3 = "female/absence3b.jpg"
-/4 = "female/absence4b.jpg"
-/5 = "female/absence5b.jpg"
+/1 = "stimuli/Female2B_P.jpg"
+/2 = "stimuli/Female5B_P.jpg"
+/3 = "stimuli/Female6B_P.jpg"
+/4 = "stimuli/Male2B_P.jpg"
+/5 = "stimuli/Male3B_P.jpg"
+/6 = "stimuli/Male4B_P.jpg"
 </item>
 
 *****************************
 Stimuli with Color Changes
 ******************************
-
 <item stimsA_color>
-/1 = "female/color1a.jpg"
-/2 = "female/color2a.jpg"
-/3 = "female/color3a.jpg"
+/1 = "stimuli/Female1A_C.jpg"
+/2 = "stimuli/Female4A_C.jpg"
+/3 = "stimuli/Female8A_C.jpg"
+/4 = "stimuli/Male1A_C.jpg"
+/5 = "stimuli/Male5A_C.jpg"
+/6 = "stimuli/Male9A_C.jpg"
 </item>
 
 <item stimsB_color>
-/1 = "female/color1b.jpg"
-/2 = "female/color2b.jpg"
-/3 = "female/color3b.jpg"
+/1 = "stimuli/Female1B_C.jpg"
+/2 = "stimuli/Female4B_C.jpg"
+/3 = "stimuli/Female8B_C.jpg"
+/4 = "stimuli/Male1B_C.jpg"
+/5 = "stimuli/Male5B_C.jpg"
+/6 = "stimuli/Male9B_C.jpg"
 </item>
 
 *****************************
@@ -250,11 +261,15 @@ Practice Stimuli
 *****************************
 
 <item practice_stimA>
-/1 = "male/TimeSquareMaleA_P.jpg"
+/1 = "DinnerA_L.png"
+/2 = "MarketA_C.png"
+/3 = "TouristsA_P.png"
 </item>
 
 <item practice_stimB>
-/1 = "male/TimeSquareMaleB_P.jpg"
+/1 = "DinnerB_L.png"
+/2 = "MarketB_C.png"
+/3 = "TouristsB_P.png"
 </item>
 
 ***************************************************************************************
@@ -774,7 +789,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.location_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "location change" else values.cue = ""]
 
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
@@ -891,7 +906,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.presence_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "presence/absence change" else values.cue = ""]
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
 /recorddata = false
@@ -1007,7 +1022,7 @@ and determines values.interesttype (central/marginal) based on the selected item
 /ontrialbegin = [values.cuecondition = 2]
 /ontrialbegin = [if (script.currentblock == "flicker_cue") values.cuecondition = 1]
 /ontrialbegin = [if (script.currentblock == "flicker_mixedcue") values.cuecondition = list.color_cuecondition_mixed.nextvalue]
-/ontrialbegin = [if (values.cuecondition == 1) values.cue = "" else values.cue = ""]
+/ontrialbegin = [if (values.cuecondition == 1) values.cue = "color change" else values.cue = ""]
 
 /stimulusframes = [1 = eraser, cue]
 /trialduration = values.cueduration
@@ -1279,7 +1294,7 @@ of block.flicker_cue and block.flicker_nocue
 <expt >
 /preinstructions = (Intro1, Intro2, Intro3)
 /postinstructions = (end)
-/blocks = [1= practice; 2 = flicker_nocue]
+/blocks = [1= practice; 2 = flicker_nocue;]
 /onexptend = [values.completed = 1]
 </expt>
 
