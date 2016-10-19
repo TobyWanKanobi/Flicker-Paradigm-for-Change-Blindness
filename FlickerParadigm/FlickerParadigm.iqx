@@ -1295,7 +1295,7 @@ of block.flicker_cue and block.flicker_nocue
 <expt >
 /preinstructions = (Intro1, Intro2, Intro3)
 /postinstructions = (end)
-/blocks = [1= practice; 2 = flicker_nocue; 3 = flicker_nocue]
+/blocks = [1= practice; 2 = flicker_mixedcue; 3-4 = noreplace(flicker_nocue, flicker_cue)]
 /onexptend = [values.completed = 1]
 </expt>
 
