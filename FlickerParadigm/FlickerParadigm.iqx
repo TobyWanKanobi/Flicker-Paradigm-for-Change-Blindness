@@ -170,7 +170,7 @@ Editable Values
 /max_numberoftrials  = 18
 /max_numberoftrials_practice = 1
 
-/runcuecondition = "blocked"
+/runcuecondition = "mixed"
 </values>
 
 
@@ -517,7 +517,7 @@ Cue Stimulus
 <text cue>
 /items = ("<%values.cue%>")
 /txbgcolor = (white)
-/txcolor = (black)
+/txcolor = (white)
 /size = (values.cueboxwidth, values.cueboxheight)
 / fontstyle = ("Arial", values.cuetextheight, false, false, false, false, 5, 1)
 /position = (50%, 50%)
