@@ -1,0 +1,20 @@
+date	time	subject	group	blockcode	blocknum	trialcode	trialnum	values.flicker_same	values.changetype	values.cuecondition	values.cue	values.counttrials	values.count_cycles	values.currentpic	values.stimulus	response	values.responsepoint	values.alternations	latency	values.cycle_rt	values.textboxresponse	correct	values.textboxresponse_rt
+101816	16:56:29	1	1	practice	1	savedata	6	80	practice	2		1	1	1	DinnerA_L.png	0	StimB1	1	0	725	1  	0	23909
+101816	16:56:29	1	1	flicker_nocue	2	savedata	18	80	3	2		1	12	3	stimuli/Female8A_C.jpg	0	StimA2	22	0	14482	1	0	2671
+101816	16:56:29	1	1	flicker_nocue	2	savedata	40	80	3	2		2	16	5	stimuli/Male5A_C.jpg	0	StimA1	30	0	19368	2	0	2069
+101816	16:56:29	1	1	flicker_nocue	2	savedata	61	80	3	2		3	15	2	stimuli/Female4A_C.jpg	0	flicker_BB	29	0	18831	3	0	3137
+101816	16:56:29	1	1	flicker_nocue	2	savedata	78	80	1	2		4	11	4	stimuli/Male6A_L.jpg	0	flicker_AB	20	0	13439	4	0	4937
+101816	16:56:29	1	1	flicker_nocue	2	savedata	95	80	2	2		5	11	5	stimuli/Male3A_P.jpg	0	StimA2	20	0	13260	5	0	7052
+101816	16:56:29	1	1	flicker_nocue	2	savedata	116	80	2	2		6	15	2	stimuli/Female5A_P.jpg	0	StimB2	29	0	19003	6	0	2735
+101816	16:56:29	1	1	flicker_nocue	2	savedata	135	80	1	2		7	13	2	stimuli/Female7A_L.jpg	0	StimB1	25	0	16093	7	0	2881
+101816	16:56:29	1	1	flicker_nocue	2	savedata	155	80	2	2		8	14	6	stimuli/Male4A_P.jpg	0	StimB2	27	0	17738	8	0	5655
+101816	16:56:29	1	1	flicker_nocue	2	savedata	171	80	1	2		9	10	1	stimuli/Female3A_L.jpg	0	flicker_BB	19	0	12421	9	0	3732
+101816	16:56:29	1	1	flicker_nocue	3	savedata	13	80	2	2		1	7	3	stimuli/Female6A_P.jpg	0	flicker_BB	13	0	8571	10 	0	5608
+101816	16:56:29	1	1	flicker_nocue	3	savedata	27	80	3	2		2	8	4	stimuli/Male1A_C.jpg	0	StimB2	15	0	10025	11	0	2430
+101816	16:56:29	1	1	flicker_nocue	3	savedata	43	80	1	2		3	10	6	stimuli/Male8A_L.jpg	0	StimA1	18	0	11649	12	0	2933
+101816	16:56:29	1	1	flicker_nocue	3	savedata	58	80	1	2		4	9	5	stimuli/Male7A_L.jpg	0	flicker_AA	16	0	10545	13	0	3459
+101816	16:56:29	1	1	flicker_nocue	3	savedata	72	80	2	2		5	8	1	stimuli/Female2A_P.jpg	0	StimB1	15	0	9618	14	0	2939
+101816	16:56:29	1	1	flicker_nocue	3	savedata	89	80	1	2		6	11	3	stimuli/Female9A_L.jpg	0	flicker_BB	21	0	13741	15	0	3693
+101816	16:56:29	1	1	flicker_nocue	3	savedata	108	80	3	2		7	13	1	stimuli/Female1A_C.jpg	0	StimB2	25	0	16549	16	0	4279
+101816	16:56:29	1	1	flicker_nocue	3	savedata	124	80	2	2		8	10	4	stimuli/Male2A_P.jpg	0	flicker_AA	18	0	11809	17 	0	3935
+101816	16:56:29	1	1	flicker_nocue	3	savedata	136	80	3	2		9	6	6	stimuli/Male9A_C.jpg	0	StimB1	11	0	7158	18	0	3291
